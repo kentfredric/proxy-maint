@@ -2,6 +2,12 @@
 # Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-perl/PortageXS/ChangeLog,v 1.57 2013/07/23 15:01:45 zlogene Exp $
 
+*PortageXS-0.2.11 (22 Jul 2013)
+
+  22 Jul 2013; Kent Fredric <kentfredric@gmail.com> +files/0.2.11/prefix.patch,
+  +PortageXS-0.2.11.ebuild, metadata.xml:
+  Version bump. Now tracking CPAN
+
   23 Jul 2013; Mikle Kolyada <zlogene@gentoo.org> metadata.xml:
   Package will be maintained by Kent Fredric through proxy maintainers
 
