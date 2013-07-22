@@ -13,12 +13,8 @@
     <remote-id type="cpan-module">Module::Build::ModuleInfo</remote-id>
     <remote-id type="cpan-module">Module::Build::Notes</remote-id>
     <remote-id type="cpan-module">Module::Build::PPMMaker</remote-id>
-    <remote-id type="cpan-module">Module::Build::Platform::Amiga</remote-id>
     <remote-id type="cpan-module">Module::Build::Platform::Default</remote-id>
-    <remote-id type="cpan-module">Module::Build::Platform::EBCDIC</remote-id>
-    <remote-id type="cpan-module">Module::Build::Platform::MPEiX</remote-id>
     <remote-id type="cpan-module">Module::Build::Platform::MacOS</remote-id>
-    <remote-id type="cpan-module">Module::Build::Platform::RiscOS</remote-id>
     <remote-id type="cpan-module">Module::Build::Platform::Unix</remote-id>
     <remote-id type="cpan-module">Module::Build::Platform::VMS</remote-id>
     <remote-id type="cpan-module">Module::Build::Platform::VOS</remote-id>
