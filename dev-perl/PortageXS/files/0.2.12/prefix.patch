@@ -1,17 +1,13 @@
-From e4b2af6cdc1eb7efa55d0b9780508ddf7a373b49 Mon Sep 17 00:00:00 2001
-From: Kent Fredric <kentfredric@gmail.com>
-Date: Tue, 23 Jul 2013 04:00:11 +1200
-Subject: [PATCH] Hand implement the patchset for 0.2.10 on 0.2.11
-
----
- lib/PortageXS.pm         | 16 ++++++++--------
- lib/PortageXS/Core.pm    |  8 ++++----
- usr/bin/portagexs_client |  8 ++++----
- usr/sbin/portagexsd      | 10 +++++-----
- 4 files changed, 21 insertions(+), 21 deletions(-)
+ lib/PortageXS.pm                           | 16 ++++++++--------
+ lib/PortageXS/Core.pm                      |  8 ++++----
+ lib/PortageXS/examples/getParamFromFile.pl |  2 +-
+ t/01_Core.t                                | 12 ++++++------
+ usr/bin/portagexs_client                   |  8 ++++----
+ usr/sbin/portagexsd                        | 12 ++++++------
+ 6 files changed, 29 insertions(+), 29 deletions(-)
 
 diff --git a/lib/PortageXS.pm b/lib/PortageXS.pm
-index fa48bac..ff0a46a 100644
+index db57a25..6cec46e 100644
 --- a/lib/PortageXS.pm
 +++ b/lib/PortageXS.pm
 @@ -71,8 +71,8 @@ sub new {
@@ -50,10 +46,10 @@ index fa48bac..ff0a46a 100644
  
  	for my $path ( @{ $pxs->{'MAKE_PROFILE_PATHS'} } ) {
 diff --git a/lib/PortageXS/Core.pm b/lib/PortageXS/Core.pm
-index d9ebc9a..bf5dc63 100644
+index 5d51023..3dd0b84 100644
 --- a/lib/PortageXS/Core.pm
 +++ b/lib/PortageXS/Core.pm
-@@ -118,7 +118,7 @@ sub getPortageMakeParam {
+@@ -122,7 +122,7 @@ sub getPortageMakeParam {
  	my $self		= shift;
  	my $param		= shift;
  	my @files		= ();
@@ -62,7 +58,7 @@ index d9ebc9a..bf5dc63 100644
  	my $v			= '';
  	my $parent		= '';
  	my $curPath;
-@@ -162,7 +162,7 @@ sub getPortageMakeParam {
+@@ -166,7 +166,7 @@ sub getPortageMakeParam {
  
  	# - Defaults >
  	if ($param eq 'PORTDIR' && !$v) {
@@ -71,7 +67,7 @@ index d9ebc9a..bf5dc63 100644
  	}
  
  	return $v;
-@@ -189,7 +189,7 @@ sub getPortdir {
+@@ -193,7 +193,7 @@ sub getPortdir {
  		return $self->{'PORTDIR'};
  	}
  	else {
@@ -80,7 +76,7 @@ index d9ebc9a..bf5dc63 100644
  		return $self->{'PORTDIR'};
  	}
  }
-@@ -206,7 +206,7 @@ sub getPortdirOverlay {
+@@ -210,7 +210,7 @@ sub getPortdirOverlay {
  	my $self	= shift;
  	my $forcereload	= shift;
  
@@ -89,6 +85,53 @@ index d9ebc9a..bf5dc63 100644
  }
  
  # Description:
+diff --git a/lib/PortageXS/examples/getParamFromFile.pl b/lib/PortageXS/examples/getParamFromFile.pl
+index 416b1be..9ea88bb 100755
+--- a/lib/PortageXS/examples/getParamFromFile.pl
++++ b/lib/PortageXS/examples/getParamFromFile.pl
+@@ -8,4 +8,4 @@ use PortageXS;
+ 
+ my $pxs=PortageXS->new();
+ print "CFLAGS are set to: ";
+-print join(' ',$pxs->getParamFromFile($pxs->getFileContents('/etc/make.globals').$pxs->getFileContents('/etc/make.conf'),'CFLAGS','lastseen'))."\n";
++print join(' ',$pxs->getParamFromFile($pxs->getFileContents('@GENTOO_PORTAGE_EPREFIX@/etc/make.globals').$pxs->getFileContents('@GENTOO_PORTAGE_EPREFIX@/etc/make.conf'),'CFLAGS','lastseen'))."\n";
+diff --git a/t/01_Core.t b/t/01_Core.t
+index d01dc31..6daba99 100644
+--- a/t/01_Core.t
++++ b/t/01_Core.t
+@@ -14,8 +14,8 @@ ok(-d $pxs->getPortdir(),'getPortdir: '.$pxs->getPortdir());
+ 
+ # - getFileContents >
+ {
+-	my $content = $pxs->getFileContents('/etc/portage/make.conf');
+-	ok($content ne '','getFileContents of /etc/portage/make.conf');
++	my $content = $pxs->getFileContents('@GENTOO_PORTAGE_EPREFIX@/etc/portage/make.conf');
++	ok($content ne '','getFileContents of @GENTOO_PORTAGE_EPREFIX@/etc/portage/make.conf');
+ }
+ 
+ # - searchInstalledPackage >
+@@ -26,8 +26,8 @@ ok(-d $pxs->getPortdir(),'getPortdir: '.$pxs->getPortdir());
+ 
+ # - getParamFromFile >
+ {
+-	my $param = $pxs->getParamFromFile($pxs->getFileContents('/etc/portage/make.conf'),'CFLAGS','lastseen');
+-	ok($param ne '','getParamFromFile /etc/portage/make.conf - CFLAGS: '.$param);
++	my $param = $pxs->getParamFromFile($pxs->getFileContents('@GENTOO_PORTAGE_EPREFIX@/etc/portage/make.conf'),'CFLAGS','lastseen');
++	ok($param ne '','getParamFromFile @GENTOO_PORTAGE_EPREFIX@/etc/portage/make.conf - CFLAGS: '.$param);
+ }
+ 
+ # - getUseSettingsOfInstalledPackage >
+@@ -65,8 +65,8 @@ ok(-d $pxs->getPortdir(),'getPortdir: '.$pxs->getPortdir());
+ 
+ # - fileBelongsToPackage >
+ {
+-	my @packages = $pxs->fileBelongsToPackage('/etc/gentoo-release');
+-	ok($#packages==0,'fileBelongsToPackage - /etc/gentoo-release: '.$packages[0]);
++	my @packages = $pxs->fileBelongsToPackage('@GENTOO_PORTAGE_EPREFIX@/etc/gentoo-release');
++	ok($#packages==0,'fileBelongsToPackage - @GENTOO_PORTAGE_EPREFIX@/etc/gentoo-release: '.$packages[0]);
+ }
+ ok(!$pxs->fileBelongsToPackage('/this/path/most/likely/does/not/exist'),'fileBelongsToPackage bogus test');
+ 
 diff --git a/usr/bin/portagexs_client b/usr/bin/portagexs_client
 index 598d05a..688cb97 100755
 --- a/usr/bin/portagexs_client
@@ -113,9 +156,15 @@ index 598d05a..688cb97 100755
  	$pxs->print_err("unable to create socket: ".&IO::Socket::SSL::errstr."\n");
  	$pxs->print_err("Server down?\n");
 diff --git a/usr/sbin/portagexsd b/usr/sbin/portagexsd
-index 638f662..587a489 100755
+index 638f662..e93bdfa 100755
 --- a/usr/sbin/portagexsd
 +++ b/usr/sbin/portagexsd
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl -t
++#!@GENTOO_PORTAGE_EPREFIX@/usr/bin/perl -t
+ 
+ # -----------------------------------------------------------------------------
+ #
 @@ -50,7 +50,7 @@ else {
  sub main {
  	# - Parse config >
@@ -147,6 +196,3 @@ index 638f662..587a489 100755
  			)) ) {
  		syslog("info", "Unable to create socket: ", &IO::Socket::SSL::errstr);
  		exit(0);
--- 
-1.8.1.5
-

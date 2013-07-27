@@ -35,7 +35,8 @@ src_prepare() {
 		lib/PortageXS/Core.pm \
 		lib/PortageXS.pm \
 		usr/bin/portagexs_client \
-		usr/sbin/portagexsd
+		usr/sbin/portagexsd \
+		t/01_Core.t
 
 	if use minimal ; then
 		rm -r "${S}"/usr
