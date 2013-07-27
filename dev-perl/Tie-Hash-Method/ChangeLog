@@ -1,0 +1,9 @@
+# ChangeLog for dev-perl/Tie-Hash-Method
+# Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*Tie-Hash-Method-0.20.0 (27 Jul 2013)
+
+  27 Jul 2013; <kent@gentoo.org> +Tie-Hash-Method-0.20.0.ebuild, +metadata.xml:
+  Added By Kent Fredric, for future use in PortageXS
+
